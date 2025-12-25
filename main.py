@@ -39,3 +39,32 @@ print('Корреляционная матрица числовых столбц
 numeric_cols = df.select_dtypes(include=[np.number])
 corr_matrix = numeric_cols.corr()
 print(corr_matrix)
+
+plt.figure(figsize=(15, 12))
+
+plt.subplot(2, 3, 1)
+plt.hist(df['Price(USD)'], bins=20, color='skyblue', edgecolor='black')
+plt.title('Распределение цен')
+plt.xlabel('Цена (USD)')
+plt.ylabel('Частота')
+
+plt.subplot(2, 3, 2)
+df['Trend_Status'].value_counts().plot(kind='bar', color='lightcoral')
+plt.title('Количество товаров по трендам')
+plt.xticks(rotation=45)
+
+plt.subplot(2, 3, 4)
+season_pop = df.groupby('Season')['Popularity_Score'].mean().reset_index()
+plt.plot(season_pop['Season'], season_pop['Popularity_Score'], marker='o', color='green')
+plt.title('Средняя популярность по сезонам')
+plt.xticks(rotation=45)
+
+plt.subplot(2, 3, 5)
+sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', fmt='.2f')
+plt.title('Корреляция числовых признаков')
+
+plt.subplot(2, 3, 3)
+plt.hist(df['Customer_Rating'], bins=10, color='gold', edgecolor='black')
+plt.title('Распределение рейтинга')
+plt.xlabel('Рейтинг')
+plt.ylabel('Частота')
