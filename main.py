@@ -68,3 +68,24 @@ plt.hist(df['Customer_Rating'], bins=10, color='gold', edgecolor='black')
 plt.title('Распределение рейтинга')
 plt.xlabel('Рейтинг')
 plt.ylabel('Частота')
+
+brand_stats = df.groupby('Brand').agg({
+    'Price(USD)': 'mean',
+    'Customer_Rating': 'median'
+}).round(2)
+print('Средняя цена и медианный рейтинг по брендам:')
+print(brand_stats.head(10))
+
+count_by_season_gender = df.groupby(['Season', 'Gender']).size()
+print('Количество товаров по сезону и гендеру:')
+print(count_by_season_gender)
+
+pivot = pd.pivot_table(
+    df,
+    values='Popularity_Score',
+    index='Category',
+    columns='Trend_Status',
+    fill_value=0
+).round(2)
+print('Сводная таблица: средняя популярность по категории и тренду:')
+print(pivot)
